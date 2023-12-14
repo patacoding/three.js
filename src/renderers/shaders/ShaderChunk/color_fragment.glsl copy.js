@@ -1,11 +1,11 @@
 export default /* glsl */ `
 #if defined( USE_COLOR_ALPHA )
 
-	diffuseColor = vec4(1.0, 0.0, 0.0, 1.0);
+	diffuseColor *= vColor;
 
 #elif defined( USE_COLOR )
 
-	diffuseColor.rgb = vec3(1.0, 0.0, 0.0);
+	diffuseColor.rgb *= vColor;
 
 #endif
 `;

@@ -50,8 +50,6 @@ void main() {
 
 export const fragment = /* glsl */ `
 #define TOON
-#define Pampa
-#define USE_MAP
 uniform vec3 diffuse;
 uniform vec3 emissive;
 uniform float opacity;
@@ -86,9 +84,6 @@ void main() {
 
 	vec4 diffuseColor = vec4( diffuse, opacity );
 
-	// diffuseColor.rgb = vec3(1.0, 0.0, 0.0);
-	vec4 sampledDiffuseColor1 = texture2D( map, vMapUv );
-	diffuseColor = sampledDiffuseColor1;
 
 	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
 	vec3 totalEmissiveRadiance = emissive;
@@ -126,8 +121,5 @@ void main() {
 	#include <fog_fragment>
 	#include <premultiplied_alpha_fragment>
 	#include <dithering_fragment>
-
-	gl_FragColor = vec4(diffuseColor.r * outgoingLight.r, diffuseColor.g * outgoingLight.g, diffuseColor.b * outgoingLight.b, diffuseColor.a);
-
 }
 `;

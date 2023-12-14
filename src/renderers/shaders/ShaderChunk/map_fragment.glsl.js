@@ -1,4 +1,4 @@
-export default /* glsl */`
+export default /* glsl */ `
 #ifdef USE_MAP
 
 	vec4 sampledDiffuseColor = texture2D( map, vMapUv );
@@ -11,7 +11,7 @@ export default /* glsl */`
 	
 	#endif
 
-	diffuseColor *= sampledDiffuseColor;
+	diffuseColor = sampledDiffuseColor;
 
 #endif
 `;

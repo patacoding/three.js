@@ -55,6 +55,8 @@ export const fragment = /* glsl */ `
 uniform vec3 diffuse;
 uniform vec3 emissive;
 uniform float opacity;
+uniform float myFactor;
+uniform float myFactorMark;
 
 #include <common>
 #include <packing>
@@ -103,6 +105,11 @@ void main() {
 	#include <normal_fragment_maps>
 	#include <emissivemap_fragment>
 
+	// edit normal of geometry to control the area of toon shadow
+	normal.y *= 0.1;
+
+
+
 	// accumulation
 	#include <lights_toon_fragment>
 	#include <lights_fragment_begin>
@@ -127,7 +134,26 @@ void main() {
 	#include <premultiplied_alpha_fragment>
 	#include <dithering_fragment>
 
-	gl_FragColor = vec4(diffuseColor.r * outgoingLight.r, diffuseColor.g * outgoingLight.g, diffuseColor.b * outgoingLight.b, diffuseColor.a);
+	float myFactorMark1 = 1.0;
+	float useMyShader = 1.0;
+	float myVal = 0.6;
+	vec3 myFactor1 = vec3(myVal, myVal, myVal);
+
+	vec3 myColor = max(myFactor1, outgoingLight);
+
+	if(useMyShader > 0.0) {
+		gl_FragColor = vec4(diffuseColor.r * myColor.r, 
+			diffuseColor.g * myColor.g, 
+			diffuseColor.b * myColor.b, 
+			diffuseColor.a);
+
+		if (myFactorMark1 < 0.1) {
+			gl_FragColor = vec4(diffuseColor.r * outgoingLight.r, diffuseColor.g * outgoingLight.g, diffuseColor.b * outgoingLight.b, diffuseColor.a);
+		}
+		
+	}
+
+
 
 }
 `;
